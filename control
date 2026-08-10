@@ -1,0 +1,9 @@
+Package: com.achille.ipadisland
+Name: iPadIsland
+Depends: mobilesubstrate
+Version: 1.0.0
+Architecture: iphoneos-arm
+Description: Activer la Dynamic Island officielle sur iPad (appels, musique, alertes...)
+Maintainer: Achille
+Author: Achille
+Section: Tweaks
