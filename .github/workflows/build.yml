@@ -1,0 +1,27 @@
+name: Build Tweak
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v3
+
+    - name: Setup Theos
+      uses: meos/setup-theos@v1
+
+    - name: Build Package
+      run: |
+        make package FINALPACKAGE=1
+
+    - name: Upload .deb
+      uses: actions/upload-artifact@v3
+      with:
+        name: iPadIsland-deb
+        path: packages/*.deb
