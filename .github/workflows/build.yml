@@ -7,23 +7,18 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: macos-14
 
     steps:
     - name: Checkout repo
       uses: actions/checkout@v4
 
-    - name: Install Dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y build-essential perl clang libssl-dev lzip unzip curl git
-
-    - name: Install Theos & SDKs
+    - name: Setup Theos
       run: |
         git clone --recursive https://github.com/theos/theos.git $HOME/theos
         echo "THEOS=$HOME/theos" >> $GITHUB_ENV
         curl -LO https://github.com/theos/sdks/archive/master.zip
-        unzip master.zip
+        unzip -q master.zip
         mv sdks-master/* $HOME/theos/sdks/
         rm -rf master.zip sdks-master
 
