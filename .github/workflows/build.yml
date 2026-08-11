@@ -13,20 +13,23 @@ jobs:
     - name: Checkout repo
       uses: actions/checkout@v4
 
-    - name: Setup Theos
-      uses: theos/setup-theos-action@v1.0.1
-
-    - name: Download iOS SDK
+    - name: Install Dependencies
       run: |
-        mkdir -p $THEOS/sdks
+        sudo apt-get update
+        sudo apt-get install -y build-essential perl clang libssl-dev lzid
+
+    - name: Install Theos & SDKs
+      run: |
+        git clone --recursive https://github.com/theos/theos.git $HOME/theos
+        echo "THEOS=$HOME/theos" >> $GITHUB_ENV
         curl -LO https://github.com/theos/sdks/archive/master.zip
         unzip master.zip
-        mv sdks-master/* $THEOS/sdks/
+        mv sdks-master/* $HOME/theos/sdks/
         rm -rf master.zip sdks-master
 
     - name: Build Package
       run: |
-        make package FINALPACKAGE=1
+        $HOME/theos/bin/make package FINALPACKAGE=1
 
     - name: Upload .deb
       uses: actions/upload-artifact@v4
