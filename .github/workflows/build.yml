@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
 
     steps:
     - name: Checkout repo
@@ -17,6 +17,14 @@ jobs:
       uses: theos/setup-theos@v1
       with:
         theos-src: 'https://github.com/theos/theos'
+
+    - name: Download iOS SDK
+      run: |
+        mkdir -p $THEOS/sdks
+        curl -LO https://github.com/theos/sdks/archive/master.zip
+        unzip master.zip
+        mv sdks-master/* $THEOS/sdks/
+        rm -rf master.zip sdks-master
 
     - name: Build Package
       run: |
